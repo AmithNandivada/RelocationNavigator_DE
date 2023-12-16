@@ -8,8 +8,8 @@ import sys
 code_path = Variable.get("scripts_path")
 sys.path.insert(0, code_path)
 
-from Extract_2 import main
-
+from extract_data import extract_data_main
+from merge_data import merge_data_main
 
 default_args = {
     "owner": "amith.nandivada",
@@ -29,22 +29,14 @@ dag = DAG(
 
 start = BashOperator(task_id="START", bash_command="echo start", dag=dag)
 
-# run_test_script = BashOperator(
-#     task_id='run_test_script',
-#     bash_command='cd /opt/airflow/scripts; ls; pwd; python hello.py',
-#     dag = dag
-# )
-
-# extract_data_from_api = BashOperator(
-#     task_id='EXTRACT_DATA_FROM_API',
-#     bash_command='cd /opt/airflow/scripts; python Extract_2.py',
-#     dag = dag
-# )
-
 extract_data_from_api =  PythonOperator(task_id = "EXTRACT_DATA_FROM_API",
-                                            python_callable = main,
+                                            python_callable = extract_data_main,
+                                            dag = dag)
+
+merge_data_from_landing_zone = PythonOperator(task_id = "MERGE_DATA_FROM_LANDING_ZONE",
+                                            python_callable = merge_data_main,
                                             dag = dag)
 
 end = BashOperator(task_id="END", bash_command="echo end", dag=dag)
 
-start >> extract_data_from_api >> end
+start >> extract_data_from_api >> merge_data_from_landing_zone >> end

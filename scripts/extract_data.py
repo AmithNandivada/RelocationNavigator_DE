@@ -15,7 +15,9 @@ class ExtractData:
         self.property_version = "/propertyapi/v1.0.0"
         self.property_endpoint = '/property/detail'
         self.base_params = {'pageSize': 200}
-        self.zip_codes = ['05601']
+        # self.zip_codes = ['05601']
+        # self.zip_codes = ['96789', '83402', '67202', '02840', '75001', '22101', '26505', '53202']
+        self.zip_codes = ['02903']
 
     def extract_data_from_api(self, params):
         headers = {'accept': "application/json", 'apikey': self.api_key}
