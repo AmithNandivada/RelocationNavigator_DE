@@ -10,6 +10,7 @@ sys.path.insert(0, code_path)
 
 from extract_data import extract_data_main
 from merge_data import merge_data_main
+from clean_data import clean_data_main
 
 default_args = {
     "owner": "amith.nandivada",
@@ -37,6 +38,10 @@ merge_data_from_landing_zone = PythonOperator(task_id = "MERGE_DATA_FROM_LANDING
                                             python_callable = merge_data_main,
                                             dag = dag)
 
+clean_data = PythonOperator(task_id = "CLEAN_DATA",
+                            python_callable = clean_data_main,
+                            dag = dag)
+
 end = BashOperator(task_id="END", bash_command="echo end", dag=dag)
 
-start >> extract_data_from_api >> merge_data_from_landing_zone >> end
+start >> extract_data_from_api >> merge_data_from_landing_zone >> clean_data >> end
