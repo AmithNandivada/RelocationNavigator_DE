@@ -60,7 +60,7 @@ class CleanData:
         df = df[[col for col in desired_columns_order if col in df.columns]]
 
         # Replacing missing values in 'saleAmt' with its mean
-        df['saleAmt'] = df['saleAmt'].fillna(df['saleAmt'].mean())
+        # df['saleAmt'] = df['saleAmt'].fillna(df['saleAmt'].mean())
 
         # Dropping additional specified columns
         columns_to_drop = ['saleSearchDate', 'saleTransDate', 'transactionIdent', 'saleDocNum', 'propIndicator', 
@@ -69,12 +69,12 @@ class CleanData:
         df.drop(columns=columns_to_drop, inplace=True)
 
         # Filling certain columns with 'None', mode, mean, or zero as specified
-        columns_to_fillna_with_none = ['coolingtype', 'absenteeInd']
+        columns_to_fillna_with_none = ['coolingtype']
         columns_to_fillna_with_mode = ['heatingtype', 'wallType', 'saleTransType', 'rooms_total', 'bed', 'condition',
                                        'levels', 'lot_size_sqrft', 'grosssize', 'grosssizeadjusted', 'assdLandValue',
                                        'assdTtlValue', 'mktImprValue', 'mktLandValue', 'assdImprValue', 'mktTtlValue',
                                        'taxAmt', 'improvementPercent', 'property_year_built', 'saleRecDate','baths_total',
-                                       'taxYear']
+                                       'taxYear', 'absenteeInd', 'saleAmt']
         columns_to_replace_with_zero = ['baths_full']
 
         for column in columns_to_fillna_with_none:
