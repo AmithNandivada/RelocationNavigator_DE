@@ -1,16 +1,21 @@
+import pandas as pd
+from io import BytesIO
 from google.cloud import storage
 from google.oauth2 import service_account
 
 class GCPUtils:
     def __init__(self):
         self.credentials = self.get_credentials()
-        # self.storage_client =  storage.Client.from_service_account_info(credentials=self.credentials)
 
-    # def save_data_to_gcs(self, data, bucket_name, destination_blob_name):
-    #     bucket = self.storage_client.bucket(bucket_name)
-    #     blob = bucket.blob(destination_blob_name)
-    #     blob.upload_from_string(data.to_csv(index=False), content_type='text/csv')
-    #     print(f"Data uploaded to {destination_blob_name} in bucket {bucket_name}.")
+    def read_data_from_gcs(self, file, bucket_name):
+        print(f"Reading data from GCS.....")
+        client = storage.Client.from_service_account_info(self.credentials)
+        bucket = client.get_bucket(bucket_name)
+        blob = bucket.blob(file)
+        csv_data = blob.download_as_text()
+        dataframe = pd.read_csv(BytesIO(csv_data.encode()))
+        print(f"Finished reading data from {file} in bucket {bucket_name}")
+        return dataframe
 
     def save_data_to_gcs(self, dataframe, bucket_name, file_path):
         print(f"Writing data to GCS.....")
