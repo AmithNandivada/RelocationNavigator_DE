@@ -6,9 +6,6 @@ from airflow.operators.bash import BashOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 
-# Add json key for service account to scripts path and add it to connections. 
-# connection id: google_cloud_default, Connection Type: Google Cloud, Keyfile Path: /opt/airflow/scripts/json_key.json
-# Also add /opt/airflow/scripts/ path to variables with name scripts_path
 
 code_path = Variable.get("scripts_path")
 sys.path.insert(0, code_path)
@@ -118,6 +115,17 @@ create_ownership_table = GCSToBigQueryOperator(
     dag=dag
 )
 
+create_crimes_table = GCSToBigQueryOperator(
+    task_id=f"CREATE_CRIMES_TABLE",
+    destination_project_dataset_table=f"housingdataanalysis.HousingData.Crimes",
+    bucket='transformed_data17',
+    source_objects=[f"violent_crimes_usafacts-Preprocess-2.csv"],
+    source_format='CSV',
+    autodetect=True,
+    write_disposition="WRITE_TRUNCATE",
+    dag=dag
+)
+
 end = BashOperator(task_id="END", bash_command="echo end", dag=dag)
 
-start >> extract_data_from_api >> merge_data_from_landing_zone >> clean_data >> transform_data >> [create_property_table, create_sale_table, create_tax_table, create_value_assessment_table, create_property_details_table, create_ownership_table] >> end
+start >> extract_data_from_api >> merge_data_from_landing_zone >> clean_data >> transform_data >> [create_property_table, create_sale_table, create_tax_table, create_value_assessment_table, create_property_details_table, create_ownership_table, create_crimes_table] >> end
