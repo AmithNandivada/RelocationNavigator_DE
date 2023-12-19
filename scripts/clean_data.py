@@ -56,7 +56,7 @@ class CleanData:
                                  'yearbuilteffective', 'assdImprValue', 'assdLandValue', 'assdTtlValue',
                                  'mktImprValue', 'mktLandValue', 'mktTtlValue', 'taxAmt',
                                  'taxPerSizeUnit', 'taxYear', 'delinquentyear', 'improvementPercent',
-                                 'lastModified', 'pubDate']
+                                 'lastModified', 'pubDate', 'zipcode', 'state']
         df = df[[col for col in desired_columns_order if col in df.columns]]
 
         # Replacing missing values in 'saleAmt' with its mean

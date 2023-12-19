@@ -29,6 +29,22 @@ class MergeData:
             # Concatenate the data
             combined_df = pd.concat([combined_df, df], ignore_index=True)
 
+        zip_to_state = {
+                        '02903': 'Rhode Island', '03301': 'New Hampshire', '04101': 'Maine', '05601': 'Vermont', '06101': 'Connecticut',
+                        '07001': 'New Jersey', '12201': 'New York', '17101': 'Pennsylvania', '19901': 'Delaware', '21201': 'Maryland',
+                        '22101': 'Virginia', '23218': 'Virginia', '26505': 'West Virginia', '27601': 'North Carolina', '29201': 'South Carolina',
+                        '30301': 'Georgia', '33101': 'Florida', '35203': 'Alabama', '37201': 'Tennessee', '39201': 'Mississippi',
+                        '40601': 'Montana', '43201': 'Ohio', '46201': 'Indiana', '49201': 'Michigan', '52801': 'Iowa', '53202': 'Wisconsin',
+                        '55101': 'Minnesota', '57501': 'South Dakota', '58501': 'North Dakota', '59601': 'Montana', '60601': 'Illinois',
+                        '65101': 'Missouri', '67202': 'Kansas', '68501': 'Nebraska', '70112': 'Louisiana', '72201': 'Arkansas',
+                        '73101': 'Oklahoma', '75001': 'Texas', '80201': 'Colorado', '82001': 'Wyoming', '83402': 'Idaho', '84101': 'Utah',
+                        '85001': 'Arizona', '87501': 'New Mexico', '89701': 'Nevada', '90001': 'California', '96789': 'Hawaii',
+                        '97201': 'Oregon', '98501': 'Washington', '99501': 'Alaska'
+                        }
+
+        combined_df['zipcode'] = str(self.zip_code)
+        combined_df['state'] = combined_df['zipcode'].map(zip_to_state)
+
         return combined_df
     
     def write_merged_data(self, combined_df):
@@ -40,17 +56,11 @@ def merge_data_main():
     gcp_utils = GCPUtils()
     read_bucket = 'landing_bucket17'
     write_bucket = 'merged_bucket17'
-    # zip_codes = ['80301', '03301']
-    # zip_codes = ['35203', '99501', '85001', '72201', '90001', '80201', 
-    #              '06101', '19901', '33101', '30301', '96801', '83701', 
-    #              '60601', '46201', '52801', '66601', '40601', '70112', 
-    #              '04101', '21201', '02101', '49201', '55101', '39201', 
-    #              '65101', '59601', '68501', '89701', '03301', '07001', 
-    #              '87501', '12201', '27601', '58501', '43201', '73101', 
-    #              '97201', '17101', '02901', '29201', '57501', '37201', 
-    #              '73301', '84101', '05601', '23218', '98501', '25301', 
-    #              '53701', '82001']
-    zip_codes = ['96789', '83402', '67202', '02903', '75001', '22101', '26505', '53202']
+    zip_codes = ['02903', '03301', '04101', '05601', '06101', '07001', '12201', '17101', '19901', '21201',
+                '22101', '23218', '26505', '27601', '29201', '30301', '33101', '35203', '37201', '39201',
+                '40601', '43201', '46201', '49201', '52801', '53202', '55101', '57501', '58501', '59601',
+                '60601', '65101', '67202', '68501', '70112', '72201', '73101', '75001', '80201', '82001',
+                '83402', '84101', '85001', '87501', '89701', '90001', '96789', '97201', '98501', '99501']
 
     for zip_code in zip_codes:
         print("Fetching data for zipcode : ", zip_code)

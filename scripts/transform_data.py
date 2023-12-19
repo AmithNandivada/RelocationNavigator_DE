@@ -59,11 +59,11 @@ class TransformData:
     def create_property_details_data(self, df, property_df):
         details_cols = ['property_id', 'coolingtype', 'heatingtype', 'wallType', 'grosssize',
                         'grosssizeadjusted', 'baths_total', 'baths_full', 'bed', 'rooms_total',
-                        'condition', 'levels']
+                        'condition', 'levels', 'zipcode', 'state']
         details_df = df[details_cols].copy()
         details_df.columns = ['Property_id', 'Coolingtype', 'Heatingtype', 'WallType', 'Grosssize',
                             'Grosssizeadjusted', 'Baths_total', 'Baths_full', 'Bed', 'Rooms_total',
-                            'Condition', 'Levels']
+                            'Condition', 'Levels', 'zipcode', 'state']
 
         # Convert baths_total and baths_full to string
         details_df['Baths_total'] = details_df['Baths_total'].fillna(0).apply(lambda x: f"{x} baths")
