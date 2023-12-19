@@ -94,6 +94,8 @@ class CleanData:
         df.loc[df['heatingtype'] == 'None', 'heatingtype'] = "NONE"
         df.loc[df['coolingtype'] == 'None', 'coolingtype'] = "NONE"
 
+        df = df.dropna(subset=['latitude', 'longitude'])
+
         print("Finished Cleaning Data.")
         num_rows, num_columns = df.shape
         print(f"Number of rows: {num_rows}")
