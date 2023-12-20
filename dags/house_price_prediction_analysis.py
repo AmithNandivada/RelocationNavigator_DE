@@ -25,7 +25,7 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id="HousePricePredictionOrchestrationDAG",
+    dag_id="RelocationNavigatorOrchestrationDAG",
     default_args=default_args,
     schedule_interval=None,
     catchup=False,

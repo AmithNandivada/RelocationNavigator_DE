@@ -95,6 +95,7 @@ class CleanData:
         df.loc[df['coolingtype'] == 'None', 'coolingtype'] = "NONE"
 
         df = df.dropna(subset=['latitude', 'longitude'])
+        df['propsubtype'] = df['propsubtype'].str.upper()
 
         print("Finished Cleaning Data.")
         num_rows, num_columns = df.shape
